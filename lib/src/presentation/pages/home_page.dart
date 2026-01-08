@@ -14,6 +14,11 @@ class HomePage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Ambiente de Aprendizagem'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => Navigator.of(context).pushNamed('/accessibility'),
+            tooltip: 'Acessibilidade',
+          ),
           if (auth.user != null)
             IconButton(
               icon: const Icon(Icons.logout),

@@ -2,15 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-class MemoryGamePage extends StatefulWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/accessibility_provider.dart';
+
+class MemoryGamePage extends ConsumerStatefulWidget {
   final int childId;
   const MemoryGamePage({this.childId = 0, super.key});
 
   @override
-  State<MemoryGamePage> createState() => _MemoryGamePageState();
+  ConsumerState<MemoryGamePage> createState() => _MemoryGamePageState();
 }
 
-class _MemoryGamePageState extends State<MemoryGamePage> {
+class _MemoryGamePageState extends ConsumerState<MemoryGamePage> {
   late List<String> _items;
   late List<bool> _revealed;
   late List<bool> _matched;
@@ -55,7 +58,8 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
 
       if (_matched.every((m) => m)) {
         // won
-        Future.delayed(const Duration(milliseconds: 300), () {
+        final reduced = ref.read(accessibilityProvider).reducedMotion;
+        Future.delayed(Duration(milliseconds: reduced ? 150 : 300), () {
           if (!mounted) return;
           showDialog(
             context: context,
@@ -84,7 +88,8 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
 
     // not a match
     _busy = true;
-    Future.delayed(const Duration(milliseconds: 700), () {
+    final reduced = ref.read(accessibilityProvider).reducedMotion;
+    Future.delayed(Duration(milliseconds: reduced ? 150 : 700), () {
       if (!mounted) return;
       setState(() {
         _revealed[first] = false;
@@ -132,7 +137,7 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       child: Center(
                         child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
+                          duration: Duration(milliseconds: ref.read(accessibilityProvider).reducedMotion ? 50 : 300),
                           child: revealed
                               ? Text(
                                   _items[index],
