@@ -97,6 +97,7 @@ class HomePage extends ConsumerWidget {
               runSpacing: 12,
               children: [
                 _QuickAction(icon: Icons.play_circle_fill, label: 'Atividades', onTap: () => Navigator.of(context).pushNamed('/color-game', arguments: 0)),
+                _QuickAction(icon: Icons.memory, label: 'Memória', onTap: () => Navigator.of(context).pushNamed('/memory-game', arguments: 0)),
                 _QuickAction(icon: Icons.group, label: 'Crianças', onTap: () => Navigator.of(context).pushNamed('/children')),
                 _QuickAction(icon: Icons.people, label: 'Responsáveis', onTap: () => Navigator.of(context).pushNamed('/caregivers')),
                 _QuickAction(icon: Icons.bar_chart, label: 'Relatórios', onTap: () => Navigator.of(context).pushNamed('/reports')),
