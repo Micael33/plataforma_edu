@@ -1,0 +1,10 @@
+enum UserRole { child, caregiver, educator }
+
+class UserEntity {
+  final String id;
+  final String name;
+  final String email;
+  final UserRole role;
+
+  UserEntity({required this.id, required this.name, required this.email, this.role = UserRole.caregiver});
+}
