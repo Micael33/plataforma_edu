@@ -11,19 +11,21 @@ import 'src/presentation/pages/color_game_page.dart';
 import 'src/presentation/pages/memory_game_page.dart';
 import 'src/presentation/pages/reports_page.dart';
 import 'src/presentation/pages/report_details_page.dart';
+import 'src/presentation/pages/accessibility_settings_page.dart';
 
-class App extends StatelessWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'src/core/theme/app_theme.dart';
+import 'src/presentation/providers/accessibility_provider.dart';
+
+class App extends ConsumerWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(accessibilityProvider);
     return MaterialApp(
       title: 'O Caminho do Saber',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: appTheme(reducedMotion: settings.reducedMotion, largeText: settings.largeText, highContrast: settings.highContrast),
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashPage(),
@@ -44,6 +46,7 @@ class App extends StatelessWidget {
           return MemoryGamePage(childId: childId);
         },
         '/reports': (context) => const ReportsPage(),
+        '/accessibility': (context) => const AccessibilitySettingsPage(),
         '/report-details': (context) {
           final args = ModalRoute.of(context)!.settings.arguments;
           final childId = args is int ? args : 0;
